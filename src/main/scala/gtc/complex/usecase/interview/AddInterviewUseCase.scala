@@ -1,13 +1,13 @@
-package gtc.complex
+package gtc.complex.usecase.interview
 
 import domain.ScreeningId
-import gtc.complex.AddInterviewUseCase.{Input, Output}
+import gtc.complex.usecase.interview.AddInterviewUseCase.{Input, Output}
+import gtc.complex.arch.{Read, Write}
+import gtc.complex.model.screening.{Screening, ScreeningRepository}
 
 import java.time.LocalDateTime
 
-class AddInterviewUseCase(
-    screeningRepository: ScreeningRepository
-) {
+class AddInterviewUseCase(screeningRepository: ScreeningRepository) {
   import Output._
   def handle(input: Input): Output = {
     val result = for {
@@ -23,7 +23,6 @@ class AddInterviewUseCase(
 }
 
 object AddInterviewUseCase {
-
   case class Input(
       screeningId: ScreeningId,
       interviewAt: LocalDateTime

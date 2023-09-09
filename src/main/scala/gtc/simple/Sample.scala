@@ -16,3 +16,4 @@ object Sample {
   def asWrite(value: Int): Sample[Write] = new Sample[Write](value)
   def asRead(value: Int): Sample[Read]   = new Sample[Read](value)
 }
+

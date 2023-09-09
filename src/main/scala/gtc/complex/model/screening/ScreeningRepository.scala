@@ -1,12 +1,30 @@
-package gtc.complex
+package gtc.complex.model.screening
 
 import domain.ScreeningId
+import gtc.complex.arch.{Mode, Read, Write}
 
 import scala.collection.mutable.ArrayBuffer
 
-class ScreeningRepository {
+trait ScreeningRepository {
+
+  def list(): Seq[Screening[Read]]
+
+  def findById[M <: Mode](id: ScreeningId): Option[Screening[M]]
+
+  def insert(screening: Screening[Write]): Unit
+
+  def update(screening: Screening[Write]): Unit
+
+  def delete(screening: Screening[Write]): Unit
+}
+
+object MemoryScreeningRepository extends ScreeningRepository {
 
   private val screenings: ArrayBuffer[Screening[_]] = ArrayBuffer.empty
+
+  def list(): Seq[Screening[Read]] = {
+    screenings.toSeq.map(_.asRead)
+  }
 
   def findById[M <: Mode](id: ScreeningId): Option[Screening[M]] = {
     screenings.find(_.id == id).map { s =>

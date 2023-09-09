@@ -1,10 +1,12 @@
 package domain
 
+import support.IdGenerator
+
 import java.util.UUID
 
 /** 採用ポジションID */
-final case class PositionId (value: UUID)
+final case class PositionId(value: Int)
 
 object PositionId {
-  def gen(): PositionId = apply(UUID.randomUUID())
+  def gen()(using idGenerator: IdGenerator): PositionId = apply(idGenerator.genId())
 }

@@ -1,6 +1,8 @@
-package gtc.complex
+package gtc.complex.model.screening
 
-import domain._
+import domain.*
+import gtc.complex.arch.{Mode, Read, Write}
+import support.IdGenerator
 
 import java.time.LocalDateTime
 
@@ -64,6 +66,8 @@ final class Screening[M <: Mode] private (
       status: ScreeningStatus = this.status,
       applyDateTime: LocalDateTime = this.applyDateTime
   ): Screening[MM] = new Screening[MM](this.id, positionId, applicant, interviews, status, applyDateTime)
+
+  override def toString = s"Screening($id, $positionId, $applicant, $interviews, $status, $applyDateTime)"
 }
 
 object Screening {
@@ -74,7 +78,7 @@ object Screening {
   def create(
       positionId: PositionId,
       applicant: Applicant
-  ): Screening[Write] = new Screening[Write](
+  )(using IdGenerator): Screening[Write] = new Screening[Write](
     id = ScreeningId.gen(),
     positionId = positionId,
     applicant = applicant,
